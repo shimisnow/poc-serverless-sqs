@@ -16,7 +16,8 @@
       "entryFile": "main",
       "sourceRoot": "apps/producer/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/producer/tsconfig.app.json"
+        "tsConfigPath": "apps/producer/tsconfig.app.json",
+        "webpackConfigPath": "apps/producer/webpack.config.js"
       }
     },
     "consumer": {
@@ -25,8 +26,10 @@
       "entryFile": "main",
       "sourceRoot": "apps/consumer/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/consumer/tsconfig.app.json"
+        "tsConfigPath": "apps/consumer/tsconfig.app.json",
+        "webpackConfigPath": "apps/consumer/webpack.config.js"
       }
     }
   }
 }
+
