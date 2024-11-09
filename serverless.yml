@@ -1,0 +1,66 @@
+service: poc-serverless-sqs
+
+provider:
+  name: aws
+  region: us-east-1
+  profile: aws-serverless
+  stage: ${opt:stage, 'dev'}
+  runtime: nodejs20.x
+  environment:
+    NODE_ENV: ${opt:stage, 'dev'}
+  timeout: 5
+
+plugins:
+  - serverless-offline
+
+package:
+  individually: true
+
+# The name of your layer in the CloudFormation template will be your layer name TitleCased (without spaces) and have LambdaLayer appended to the end
+# For a layer named "Test", use "!Ref TestLambdaLayer"
+layers:
+  node:
+    description: A layer with node_modules for production environment and database certificates
+    path: poc-serverless-sqs-layer
+    package:
+      # see project /docs/markdown/how-to-deploy.md to details as how to generate the aws-lambda-layer.zip file
+      artifact: aws-lambda-layer/aws-lambda-layer.zip
+
+functions:
+  producer:
+    package:
+      include:
+        - dist/apps/producer/lambda.js
+      exclude:
+        - ./**
+    handler: dist/apps/producer/lambda.handler
+    layers:
+      - !Ref NodeLambdaLayer
+    events:
+      - http:
+          method: POST
+          path: /message
+
+  consumer:
+    package:
+      include:
+        - dist/apps/consumer/lambda.js
+      exclude:
+        - ./**
+    handler: dist/apps/consumer/lambda.handler
+    layers:
+      - !Ref NodeLambdaLayer
+    events:
+      - sqs:
+        arn:
+          Fn::Join:
+            - ':'
+            - - arn
+              - aws
+              - sqs
+              - Ref: AWS::Region
+              - Ref: AWS::AccountId
+              - PocServerlessQueue
+        batchSize: 2
+        maximumBatchingWindow: 60 # seconds
+        maximumConcurrency: 2
