@@ -10,9 +10,9 @@ export class ConsumerService {
   )
   public async handleMessage(message: Message) {
     try {
-      console.log('Received SQS message:', message);
+      console.log('SQS message received');
+      console.log(message);
     } catch (error) {
-      console.log('consumer error', JSON.stringify(error));
       throw new InternalServerErrorException(error);
     }
   }
