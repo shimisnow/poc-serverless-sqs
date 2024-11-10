@@ -1,12 +1,12 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Post } from '@nestjs/common';
 import { ProducerService } from './producer.service';
 
-@Controller()
+@Controller('message')
 export class ProducerController {
   constructor(private readonly producerService: ProducerService) {}
 
-  @Get()
-  getHello(): string {
-    return this.producerService.getHello();
+  @Post()
+  emitMessage() {
+    return this.producerService.dispatchMessage();
   }
 }

@@ -2,6 +2,8 @@
 /dist
 /node_modules
 /build
+.serverless
+undefined
 
 # Logs
 logs
@@ -57,3 +59,4 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # Others
 /aws-lambda-layer
+!/aws-lambda-layer/.gitkeep

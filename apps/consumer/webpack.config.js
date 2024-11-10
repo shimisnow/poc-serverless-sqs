@@ -1,6 +1,7 @@
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 
+/*
 // Load the TypeScript configuration
 const tsConfig = require('../../tsconfig.json');
 
@@ -14,6 +15,7 @@ if (tsConfig.compilerOptions.paths) {
     );
   }
 }
+*/
 
 module.exports = {
   entry: {
@@ -27,7 +29,7 @@ module.exports = {
     clean: true,
   },
   resolve: {
-    alias,
+    //alias,
     extensions: ['.ts', '.js'],
   },
   module: {

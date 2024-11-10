@@ -9,13 +9,13 @@ As AWS Lambda runtime executes with Amazon Linux, all node_modules libraries nee
 The following command generates the node_modules with a major NodeJS official Docker image and create a zip file already with the required structure to be used as an AWS Lambda Layer.
 
 ```sh
-docker compose aws-lambda-layer
+docker compose build lambda-layer
 ```
 
-The following command copies the generated zip file inside the Docker image and put it at the path that Serverless Framework sets as artifact (/aws-lambda-layer/aws-lambda-layer.zip).
+The following command copies the generated zip file inside the Docker image and put it at the path that Serverless Framework sets as artifact (/aws-lambda-layer/poc-serverless-sqs-layer.zip).
 
 ```sh
-docker create --name aws_lambda_layer_tmp aws-lambda-layer:latest
-docker cp aws_lambda_layer_tmp:/home/aws-lambda-layer.zip ./aws-lambda-layer/aws-lambda-layer.zip
-docker rm aws_lambda_layer_tmp
+docker create --name poc_serverless_sqs_layer_tmp poc-serverless-sqs-layer:latest
+docker cp poc_serverless_sqs_layer_tmp:/home/aws-lambda-layer.zip ./aws-lambda-layer/poc-serverless-sqs-layer.zip
+docker rm poc_serverless_sqs_layer_tmp
 ```

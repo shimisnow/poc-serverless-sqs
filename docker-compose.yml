@@ -1,0 +1,10 @@
+networks:
+  poc-nestjs-serverless:
+    driver: bridge
+
+services:
+  lambda-layer:
+    image: poc-serverless-sqs-layer:latest
+    build:
+      context: .
+      dockerfile: ./deployment/aws-lambda/layers/Dockerfile

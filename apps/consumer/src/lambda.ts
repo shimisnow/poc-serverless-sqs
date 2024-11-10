@@ -1,23 +1,24 @@
 import { NestFactory } from '@nestjs/core';
-import serverlessExpress from '@codegenie/serverless-express';
-import { Callback, Context, Handler } from 'aws-lambda';
+import { Handler } from 'aws-lambda';
 import { ConsumerModule } from './consumer.module';
+import { ConsumerService } from './consumer.service';
 
-let server: Handler;
+let app;
 
-async function bootstrap(): Promise<Handler> {
-  const app = await NestFactory.create(ConsumerModule);
-  await app.init();
+export const handler: Handler = async (event) => {
+  app = await NestFactory.createApplicationContext(ConsumerModule);
 
-  const expressApp = app.getHttpAdapter().getInstance();
-  return serverlessExpress({ app: expressApp });
-}
+  const sqsHandle = app.get(ConsumerService);
 
-export const handler: Handler = async (
-  event: any,
-  context: Context,
-  callback: Callback,
-) => {
-  server = server ?? (await bootstrap());
-  return server(event, context, callback);
+  for (const record of event.Records) {
+    const message = JSON.parse(record.body);
+
+    // Manually trigger the handler
+    await sqsHandle.handleMessage(message);
+  }
+
+  return {
+    statusCode: 200,
+    body: 'SQS message processed',
+  };
 };

@@ -2,13 +2,18 @@ service: poc-serverless-sqs
 
 provider:
   name: aws
-  region: us-east-1
   profile: aws-serverless
+  region: us-east-1
+  vpc:
+    securityGroupIds:
+      - sg-067b9bb40a240e42c
+    subnetIds:
+      - subnet-0c19620347ff05c33
   stage: ${opt:stage, 'dev'}
   runtime: nodejs20.x
   environment:
     NODE_ENV: ${opt:stage, 'dev'}
-  timeout: 5
+  timeout: 20
 
 plugins:
   - serverless-offline
@@ -24,7 +29,7 @@ layers:
     path: poc-serverless-sqs-layer
     package:
       # see project /docs/markdown/how-to-deploy.md to details as how to generate the aws-lambda-layer.zip file
-      artifact: aws-lambda-layer/aws-lambda-layer.zip
+      artifact: aws-lambda-layer/poc-serverless-sqs-layer.zip
 
 functions:
   producer:
@@ -52,15 +57,7 @@ functions:
       - !Ref NodeLambdaLayer
     events:
       - sqs:
-        arn:
-          Fn::Join:
-            - ':'
-            - - arn
-              - aws
-              - sqs
-              - Ref: AWS::Region
-              - Ref: AWS::AccountId
-              - PocServerlessQueue
-        batchSize: 2
-        maximumBatchingWindow: 60 # seconds
-        maximumConcurrency: 2
+          arn: arn:aws:sqs:us-east-1:841162678852:PocServerlessQueue
+          batchSize: 2
+          maximumBatchingWindow: 60 # seconds
+          maximumConcurrency: 2
