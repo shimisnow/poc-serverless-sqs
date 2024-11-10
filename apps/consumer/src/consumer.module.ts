@@ -7,10 +7,9 @@ import { SqsModule } from '@ssut/nestjs-sqs';
     SqsModule.register({
       consumers: [
         {
-          name: 'PocServerlessQueue',
-          queueUrl:
-            'https://sqs.us-east-1.amazonaws.com/xxxx/PocServerlessQueue',
-          region: 'us-east-1',
+          name: process.env.AWS_SQS_QUEUE_NAME,
+          queueUrl: process.env.AWS_SQS_QUEUE_URL,
+          region: process.env.AWS_REGION || 'us-east-1',
         },
       ],
     }),

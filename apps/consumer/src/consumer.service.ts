@@ -4,7 +4,10 @@ import { Message } from '@aws-sdk/client-sqs';
 
 @Injectable()
 export class ConsumerService {
-  @SqsMessageHandler(/** name: */ 'PocServerlessQueue', /** batch: */ false)
+  @SqsMessageHandler(
+    /** name: */ process.env.AWS_SQS_QUEUE_NAME,
+    /** batch: */ false,
+  )
   public async handleMessage(message: Message) {
     try {
       console.log('Received SQS message:', message);
@@ -15,7 +18,7 @@ export class ConsumerService {
   }
 
   @SqsConsumerEventHandler(
-    /** name: */ 'PocServerlessQueue',
+    /** name: */ process.env.AWS_SQS_QUEUE_NAME,
     /** eventName: */ 'processing_error',
   )
   public onProcessingError(error: Error, message: Message) {
@@ -24,7 +27,7 @@ export class ConsumerService {
   }
 
   @SqsConsumerEventHandler(
-    /** name: */ 'PocServerlessQueue',
+    /** name: */ process.env.AWS_SQS_QUEUE_NAME,
     /** eventName: */ 'timeout_error',
   )
   async onTimeoutError(error: Error, message: Message) {

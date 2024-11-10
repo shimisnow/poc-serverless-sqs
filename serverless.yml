@@ -5,10 +5,8 @@ provider:
   profile: aws-serverless
   region: us-east-1
   vpc:
-    securityGroupIds:
-      - sg-067b9bb40a240e42c
-    subnetIds:
-      - subnet-0c19620347ff05c33
+    securityGroupIds: ${file(.env.json):AWS_SECURITY_GROUP_IDS}
+    subnetIds: ${file(.env.json):AWS_SUBNET_ID}
   stage: ${opt:stage, 'dev'}
   runtime: nodejs20.x
   environment:
@@ -33,6 +31,7 @@ layers:
 
 functions:
   producer:
+    environment: ${file(.env.json)}
     package:
       include:
         - dist/apps/producer/lambda.js
@@ -47,6 +46,7 @@ functions:
           path: /message
 
   consumer:
+    environment: ${file(.env.json)}
     package:
       include:
         - dist/apps/consumer/lambda.js
@@ -57,7 +57,7 @@ functions:
       - !Ref NodeLambdaLayer
     events:
       - sqs:
-          arn: arn:aws:sqs:us-east-1:841162678852:PocServerlessQueue
+          arn: ${file(.env.json):AWS_SQS_ARN}
           batchSize: 2
           maximumBatchingWindow: 60 # seconds
           maximumConcurrency: 2

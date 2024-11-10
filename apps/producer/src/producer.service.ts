@@ -11,7 +11,7 @@ export class ProducerService {
 
     console.log('sended');
 
-    await this.sqsService.send('PocServerlessQueue', {
+    await this.sqsService.send(process.env.AWS_SQS_QUEUE_NAME, {
       id,
       body: {
         id,
