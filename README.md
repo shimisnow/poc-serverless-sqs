@@ -119,3 +119,4 @@ lambda_consumer --> [*]
 
 - [How to contribute](./CONTRIBUTING.md)
 - [How to deploy](docs/markdown/how-to-deploy.md)
+- [How to test locally](docs/markdown/how-to-test.md)

@@ -1,0 +1,21 @@
+{
+  "Records": [
+    {
+      "messageId": "7c2a3e69-2b3b-4faf-b8a2-4d241b5d4003",
+      "receiptHandle": "AQEBMOBdWkD77H356M1pRlmBgcOPGOV2tFp3Hs+lkAOl8bQ05afkeRiy4eVaDy5xX90h7cfrv7hgFicw0JpDix2kunzPYxsrlkCE79ZFn22mkBuPmYyqcqL9XhpbYTrtotk0sVAMkOJinBgH4PeQx68Om9iyiu5/sNtY0p2XZkOWyRUJabcVC4WpuVgchMDJ2tLv3/QY752FTTt5+BZjFyURKdLH+tS2j4ivfWAt492aZPnilzx5xagXsjZEVnUYoRrHk0LyHDqtsIGkDIZimC1tNcskITboa9oRNGXEkHk5DYG6oM/HxueZOgSOHrqEjtdeLAqUGEyckaQr/B1/C2FaRENgMvjW/5dBlcQWp8GX6UdQBh47sO06vdbzE0KPROLsxzXNzYuDy7upCzEnEWzjxg==",
+      "body": "{\"text\":\"my message 001\"}",
+      "attributes": {
+        "ApproximateReceiveCount": "1",
+        "SentTimestamp": "1731338898300",
+        "SenderId": "841162678123",
+        "ApproximateFirstReceiveTimestamp": "1731338898302"
+      },
+      "messageAttributes": {},
+      "md5OfMessageAttributes": null,
+      "md5OfBody": "71596367c383216ec4930bb5a714a5dd",
+      "eventSource": "aws:sqs",
+      "eventSourceARN": "arn:aws:sqs:us-east-1:841162678123:PocServerlessQueue01",
+      "awsRegion": "us-east-1"
+    }
+  ]
+}
