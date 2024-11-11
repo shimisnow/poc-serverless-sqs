@@ -2,6 +2,45 @@
 
 # Serveless Framework and Amazon SQS
 
+## General organization
+
+This project has two functions, each one is an app inside the monorepo and run inside its own lambda function
+
+- **Producer**: exposes a REST API endpoint to receive messages to be send to the queue
+- **Consumer**: is trigger by the SQS message and print the message to CloudWatch (via console.log)
+
+```mermaid
+stateDiagram-v2
+direction LR
+
+state "API Call" as api_call
+[*] --> api_call
+
+state "AWS API Gateway" as aws_api_gateway {
+    state "API Entrypoint" as api_entrypoint
+    state "REST API Producer" as api_producer
+
+    api_entrypoint --> api_producer
+
+    api_producer --> lambda_producer
+
+}
+
+state "AWS Lambda" as aws_lambda {
+    state "Function producer" as lambda_producer
+    state "Function consumer" as lambda_consumer
+}
+
+state "AWS SQS" as aws_sqs {
+    state "Queue" as sqs
+}
+
+api_call --> api_entrypoint
+lambda_producer --> sqs
+sqs --> lambda_consumer
+lambda_consumer --> [*]
+```
+
 ## Technology Stack
 
 - **Monorepo**: This is a [monorepo](https://docs.nestjs.com/cli/monorepo#monorepo-mode) containing multiple Lambda functions and shared infrastructure
@@ -74,45 +113,6 @@ serverless_group:::serverless_style
 build_code --> lambda_layer
 api_gateway --> [*]
 lambda_sqs_link --> [*]
-```
-
-## General organization
-
-The project has two functions, each one is an app inside the monorepo and run in its own lambda function:
-
-- **Producer**: exposes a REST API endpoint to receive messages to be send to the queue
-- **Consumer**: is trigger by the SQS message and print the message to CloudWatch (via console.log)
-
-```mermaid
-stateDiagram-v2
-direction LR
-
-state "API Call" as api_call
-[*] --> api_call
-
-state "AWS API Gateway" as aws_api_gateway {
-    state "API Entrypoint" as api_entrypoint
-    state "REST API Producer" as api_producer
-
-    api_entrypoint --> api_producer
-
-    api_producer --> lambda_producer
-
-}
-
-state "AWS Lambda" as aws_lambda {
-    state "Function producer" as lambda_producer
-    state "Function consumer" as lambda_consumer
-}
-
-state "AWS SQS" as aws_sqs {
-    state "Queue" as sqs
-}
-
-api_call --> api_entrypoint
-lambda_producer --> sqs
-sqs --> lambda_consumer
-lambda_consumer --> [*]
 ```
 
 ## Documentation about
