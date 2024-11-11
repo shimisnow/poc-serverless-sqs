@@ -19,7 +19,6 @@ if (tsConfig.compilerOptions.paths) {
 
 module.exports = {
   entry: {
-    main: './apps/consumer/src/main.ts',
     lambda: './apps/consumer/src/lambda.ts',
   },
   output: {

@@ -23,7 +23,7 @@
     "consumer": {
       "type": "application",
       "root": "apps/consumer",
-      "entryFile": "main",
+      "entryFile": "lambda",
       "sourceRoot": "apps/consumer/src",
       "compilerOptions": {
         "tsConfigPath": "apps/consumer/tsconfig.app.json",
