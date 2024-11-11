@@ -4,9 +4,6 @@ provider:
   name: aws
   profile: aws-serverless
   region: us-east-1
-  vpc:
-    securityGroupIds: ${file(.env.json):AWS_SECURITY_GROUP_IDS}
-    subnetIds: ${file(.env.json):AWS_SUBNET_ID}
   stage: ${opt:stage, 'dev'}
   runtime: nodejs20.x
   environment:
